@@ -1,7 +1,5 @@
 import argparse
-
-import gitlab
-import os
+import gitlab, os
 
 
 def get_notes(tag, chlog):
@@ -27,7 +25,7 @@ def find_package_from_old_releases(folder, tag):
     if len(fnames) == 1:
         return fnames[0]
     else:
-        print(fnames)
+        print (fnames)
         fnames = [nm for nm in fnames if "toy" not in nm]
         if len(fnames) != 1:
             raise RuntimeWarning("Error: Found two release canditates nothing will be posted")
@@ -90,6 +88,7 @@ def main():
     parser.add_argument("--proj_name")
     parser.add_argument("--release_folder", default="/data/releases/")
     parser.add_argument("--changelog", default="CHANGELOG.md")
+
 
     args = parser.parse_args()
 

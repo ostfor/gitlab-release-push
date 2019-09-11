@@ -12,7 +12,7 @@ setup(name='gitlab_release',
       author='Denis Brailovsky',
       author_email='denis.brailovsky@gmail.com',
       license='MIT',
-
+      install_requires=["python-gitlab>=1.11.0"],
       packages=["gitlab_release.{}".format(pkg) for pkg in find_packages("gitlab_release")] + ["gitlab_release"],
       scripts = ["scripts/gitlab_release_one.py", "scripts/gitlab_release_many.py"],
       zip_safe=False)

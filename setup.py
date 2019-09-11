@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 with open('requirements.txt') as f:
     required = f.read().splitlines()
 
-setup(name='osf_visualizer',
+setup(name='gitlab_release',
       use_scm_version=True,
       setup_requires=['setuptools_scm'],
       install_requires=required,
@@ -14,5 +14,5 @@ setup(name='osf_visualizer',
       license='MIT',
 
       packages=["gitlab_release.{}".format(pkg) for pkg in find_packages("gitlab_release")] + ["gitlab_release"],
-
+      scripts = ["scripts/gitlab_release_one.py", "scripts/gitlab_release_many.py"],
       zip_safe=False)

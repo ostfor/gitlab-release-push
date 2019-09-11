@@ -1,3 +1,4 @@
+#!/usr/bin/python -u
 import argparse
 
 from gitlab_release.release_push import ReleasePoster

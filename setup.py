@@ -12,7 +12,7 @@ setup(name='osf_visualizer',
       author='Denis Brailovsky',
       author_email='denis.brailovsky@gmail.com',
       license='MIT',
-      data_files=[('', ['LICENSE', 'CHANGELOG.md'])],
+
       packages=["gitlab_release.{}".format(pkg) for pkg in find_packages("gitlab_release")] + ["gitlab_release"],
 
       zip_safe=False)

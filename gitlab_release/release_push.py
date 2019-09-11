@@ -1,4 +1,3 @@
-import argparse
 import gitlab, os
 
 
@@ -49,7 +48,7 @@ class ReleasePoster(object):
     def release_all_tags(self, release_folder, chlog):
         for tag in self.tags:
             try:
-                fname = find_package_from_old_releases(release_folder, tag.name)
+                release_package_fname = find_package_from_old_releases(release_folder, tag.name)
             except RuntimeWarning as e:
                 print(e)
                 continue
@@ -58,18 +57,18 @@ class ReleasePoster(object):
             except RuntimeWarning as e:
                 print(e)
                 notes = "Release #{}".format(tag.name)
-            self.release(fname, tag.name, notes, release_folder)
+            self.release(release_folder, release_package_fname, tag.name, notes)
 
-    def release(self, fname, tag_name, text, release_folder):
+    def release(self, release_folder, release_package_fname, tag_name, text):
         print("SERV: ", self.gl_server)
-        f = self.proj.upload(fname, filepath=os.path.join(release_folder, fname))
+        f = self.proj.upload(release_package_fname, filepath=os.path.join(release_folder, release_package_fname))
         release_url = "/".join([self.gl_server, self.proj_name, f['url']])
         print(release_url)
         request = {
             'name': 'Release ' + tag_name, 'tag_name': tag_name,
             'description': text + "\n[Download]({})".format(release_url),
             "assets": {"links": [
-                {"name": fname, "url": release_url}]
+                {"name": release_package_fname, "url": release_url}]
             }
         }
         print(request)
@@ -81,21 +80,3 @@ class ReleasePoster(object):
         return _release
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Parameters",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("token")
-    parser.add_argument("--proj_name")
-    parser.add_argument("--release_folder", default="/data/releases/")
-    parser.add_argument("--changelog", default="CHANGELOG.md")
-
-
-    args = parser.parse_args()
-
-    ReleasePoster(args.token, proj_name=args.proj_name,
-                  gitlab_server='https://gitlab.com').release_all_tags(args.release_folder,
-                                                                       args.changelog)
-
-
-if __name__ == '__main__':
-    main()

@@ -31,7 +31,7 @@ def main():
             raise
 
     ReleasePoster(TOKEN, proj_name=args.proj_name,
-                  gitlab_server=args.gitlab_server).release(dirname, fname, args.tagname, notes, package_name=None)
+                  gitlab_server=args.gitlab_server).release(dirname, fname, args.tagname, notes, package_name=args.package_name)
 
 
 if __name__ == '__main__':

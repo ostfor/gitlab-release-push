@@ -66,7 +66,7 @@ class ReleasePoster(object):
         print(release_url)
         request = {
             'name': 'Release ' + tag_name, 'tag_name': tag_name,
-            'description': text + "\n[Download]({})".format(release_url),
+            'description': text + "\n\n[Download package]({})".format(release_url),
             "assets": {"links": [
                 {"name": release_package_fname, "url": release_url}]
             }

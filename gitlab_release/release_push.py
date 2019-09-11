@@ -66,14 +66,16 @@ class ReleasePoster(object):
                 notes = "Release #{}".format(tag.name)
             self.release(release_folder, release_package_fname, tag.name, notes)
 
-    def release(self, release_folder, release_package_fname, tag_name, text):
+    def release(self, release_folder, release_package_fname, tag_name, text, package_name=None):
         print("SERV: ", self.gl_server)
+        if package_name is None:
+            package_name = release_package_fname
         f = self.proj.upload(release_package_fname, filepath=os.path.join(release_folder, release_package_fname))
         release_url = "/".join([self.gl_server, self.proj_name, f['url']])
         print(release_url)
         request = {
             'name': 'Release ' + tag_name, 'tag_name': tag_name,
-            'description': text + "\n\n[Download package]({})".format(release_url),
+            'description': text + "\n\n[Download package {}]({})".format(package_name, release_url),
             "assets": {"links": [
                 {"name": release_package_fname, "url": release_url}]
             }

@@ -16,6 +16,7 @@ def main():
     parser.add_argument("--changelog", default="CHANGELOG.md")
     parser.add_argument("--gitlab_server", default='https://gitlab.com')
     parser.add_argument("--allow_empty_change_log", action="store_true")
+    parser.add_argument("--package_name")
 
 
     args = parser.parse_args()
@@ -30,7 +31,7 @@ def main():
             raise
 
     ReleasePoster(TOKEN, proj_name=args.proj_name,
-                  gitlab_server=args.gitlab_server).release(dirname, fname, args.tagname, notes)
+                  gitlab_server=args.gitlab_server).release(dirname, fname, args.tagname, notes, package_name=None)
 
 
 if __name__ == '__main__':

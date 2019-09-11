@@ -45,6 +45,13 @@ class ReleasePoster(object):
         print(self.tags)
         print("SERV: ", self.gl_server)
 
+    def get_notes(self, ):
+        try:
+            notes = get_notes(tag.name, chlog)
+        except RuntimeWarning as e:
+            print(e)
+            notes = "Release #{}".format(tag.name)
+
     def release_all_tags(self, release_folder, chlog):
         for tag in self.tags:
             try:

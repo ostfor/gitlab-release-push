@@ -24,7 +24,7 @@ def find_package_from_old_releases(folder, tag):
     if len(fnames) == 1:
         return fnames[0]
     else:
-        print (fnames)
+        print(fnames)
         fnames = [nm for nm in fnames if "toy" not in nm]
         if len(fnames) != 1:
             raise RuntimeWarning("Error: Found two release canditates nothing will be posted")
@@ -45,13 +45,6 @@ class ReleasePoster(object):
         print(self.tags)
         print("SERV: ", self.gl_server)
 
-    def get_notes(self, ):
-        try:
-            notes = get_notes(tag.name, chlog)
-        except RuntimeWarning as e:
-            print(e)
-            notes = "Release #{}".format(tag.name)
-
     def release_all_tags(self, release_folder, chlog):
         for tag in self.tags:
             try:
@@ -64,21 +57,34 @@ class ReleasePoster(object):
             except RuntimeWarning as e:
                 print(e)
                 notes = "Release #{}".format(tag.name)
-            self.release(release_folder, release_package_fname, tag.name, notes)
+            self.release(os.path.join(release_folder, release_package_fname), tag.name, notes)
 
-    def release(self, release_folder, release_package_fname, tag_name, text, package_name=None):
-        print("SERV: ", self.gl_server)
-        if package_name is None:
-            package_name = release_package_fname
-        f = self.proj.upload(release_package_fname, filepath=os.path.join(release_folder, release_package_fname))
-        release_url = "/".join([self.gl_server, self.proj_name, f['url']])
-        print(release_url)
+    def release(self, release_package_fname_list, tag_name, text):
+
+        def parse_release_package_fname_list(release_package_fname_list):
+            asset_links = []
+            release_text = "\n"
+
+            for package_fname in release_package_fname_list:
+                release_package_fname = os.path.basename(package_fname)
+                release_folder = os.path.dirname(package_fname)
+
+                f = self.proj.upload(release_package_fname,
+                                     filepath=os.path.join(release_folder, release_package_fname))
+
+                release_url = "/".join([self.gl_server, self.proj_name, f['url']])
+                asset = {"name": release_package_fname, "url": release_url}
+                asset_links.append(asset)
+                release_text = release_text + "\n\n[Download package {}]({})".format(release_package_fname, release_url)
+            return asset_links, release_text
+
+        print("Server: ", self.gl_server)
+        asset_links, release_text = parse_release_package_fname_list(release_package_fname_list)
+
         request = {
             'name': 'Release ' + tag_name, 'tag_name': tag_name,
-            'description': text + "\n\n[Download package {}]({})".format(package_name, release_url),
-            "assets": {"links": [
-                {"name": release_package_fname, "url": release_url}]
-            }
+            'description': text + release_text,
+            "assets": {"links": asset_links}
         }
         print(request)
         try:
@@ -87,5 +93,3 @@ class ReleasePoster(object):
             self.proj.releases.delete(tag_name)
             _release = self.proj.releases.create(request)
         return _release
-
-

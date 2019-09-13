@@ -12,7 +12,7 @@ def main():
     #parser.add_argument("token")
     parser.add_argument("--tagname")
     parser.add_argument("--proj_name")
-    parser.add_argument("--release_package", default="/data/releases/")
+    parser.add_argument("--release_package", nargs="+")
     parser.add_argument("--changelog", default="CHANGELOG.md")
     parser.add_argument("--gitlab_server", default='https://gitlab.com')
     parser.add_argument("--allow_empty_change_log", action="store_true")
@@ -20,8 +20,6 @@ def main():
 
 
     args = parser.parse_args()
-    fname = os.path.basename(args.release_package)
-    dirname = os.path.dirname(args.release_package)
 
     notes = "Release " + args.tagname
     try:
@@ -31,7 +29,7 @@ def main():
             raise
 
     ReleasePoster(TOKEN, proj_name=args.proj_name,
-                  gitlab_server=args.gitlab_server).release(dirname, fname, args.tagname, notes, package_name=args.package_name)
+                  gitlab_server=args.gitlab_server).release(release_package_fname_list=args.release_package, tag_name=args.tagname, text=notes)
 
 
 if __name__ == '__main__':

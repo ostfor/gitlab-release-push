@@ -1,6 +1,6 @@
-#!/usr/bin/python -u
-import argparse
+#!/usr/bin/env python
 
+import argparse
 from gitlab_release.release_push import ReleasePoster
 
 
@@ -17,7 +17,6 @@ def main():
 
     ReleasePoster(args.token, proj_name=args.proj_name,
                   gitlab_server=args.gitlab_server).release_all_tags(args.release_folder, args.changelog)
-
 
 
 if __name__ == '__main__':

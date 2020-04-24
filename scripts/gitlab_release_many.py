@@ -9,7 +9,7 @@ TOKEN = os.environ['CI_TOKEN']
 def main():
     parser = argparse.ArgumentParser(description="Parameters",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("token")
+
     parser.add_argument("--proj_name")
     parser.add_argument("--release_folder", default="/data/releases/")
     parser.add_argument("--changelog", default="CHANGELOG.md")

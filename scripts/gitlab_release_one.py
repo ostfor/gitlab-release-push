@@ -16,7 +16,6 @@ def main():
     parser.add_argument("--changelog", default="CHANGELOG.md")
     parser.add_argument("--gitlab_server", default='https://gitlab.com')
     parser.add_argument("--allow_empty_change_log", action="store_true")
-    parser.add_argument("--package_name")
     args = parser.parse_args()
 
     notes = "Release " + args.tagname

@@ -2,7 +2,9 @@
 
 import argparse
 from gitlab_release.release_push import ReleasePoster
+import os
 
+TOKEN = os.environ['CI_TOKEN']
 
 def main():
     parser = argparse.ArgumentParser(description="Parameters",
@@ -15,7 +17,7 @@ def main():
     parser.add_argument("--gitlab_server", default='https://gitlab.com')
     args = parser.parse_args()
 
-    ReleasePoster(args.token, proj_name=args.proj_name,
+    ReleasePoster(TOKEN, proj_name=args.proj_name,
                   gitlab_server=args.gitlab_server).release_all_tags(args.release_folder, args.changelog)
 
 

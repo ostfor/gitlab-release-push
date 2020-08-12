@@ -59,7 +59,7 @@ class ReleasePoster(object):
                 notes = "Release #{}".format(tag.name)
             self.release(os.path.join(release_folder, release_package_fname), tag.name, notes)
 
-    def release(self, release_package_fname_list, release_jsons_fname_list, tag_name, text):
+    def release(self, release_package_fname_list, release_json_fname_list, tag_name, text):
 
         def parse_release_package_fname_list(release_package_fname_list, release_json_fname_list):
             asset_links = []

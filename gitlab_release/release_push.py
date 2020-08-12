@@ -63,9 +63,9 @@ class ReleasePoster(object):
 
         def parse_release_package_fname_list(release_package_fname_list, release_json_fname_list):
             asset_links = []
-            release_text = "\n"
+            release_text = "\n\n"
 
-            release_text = release_text + "\n\n ### Downloads"
+            release_text = release_text + "### Packages"
             for package_fname in release_package_fname_list:
                 release_package_fname = os.path.basename(package_fname)
                 release_folder = os.path.dirname(package_fname)
@@ -78,7 +78,7 @@ class ReleasePoster(object):
                 asset_links.append(asset)
                 release_text = release_text + "\n\n[Download package {}]({})".format(release_package_fname, release_url)
 
-            release_text = release_text + "\n\n ### JSON schema"
+            release_text = release_text + "\n\n\n ### JSON schema"
             for json_fname in release_json_fname_list:
                 release_json_fname = os.path.basename(json_fname)
                 release_folder = os.path.dirname(json_fname)

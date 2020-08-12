@@ -13,7 +13,7 @@ def main():
     parser.add_argument("--tagname")
     parser.add_argument("--proj_name")
     parser.add_argument("--release_package", nargs="+")
-    parser.add_argument("--release_jsons", nargs="+")
+    parser.add_argument("--release_json", nargs="+")
     parser.add_argument("--changelog", default="CHANGELOG.md")
     parser.add_argument("--gitlab_server", default='https://gitlab.com')
     parser.add_argument("--allow_empty_change_log", action="store_true")

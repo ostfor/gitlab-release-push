@@ -78,7 +78,7 @@ class ReleasePoster(object):
                 asset_links.append(asset)
                 release_text = release_text + "\n\n[Download package {}]({})".format(release_package_fname, release_url)
 
-            release_text = release_text + "\n\n\n ### JSON schema"
+            release_text = release_text + "\n\n\n ### JSON schemas"
             for json_fname in release_json_fname_list:
                 release_json_fname = os.path.basename(json_fname)
                 release_folder = os.path.dirname(json_fname)
